@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Climate+Crisis&family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Nunito&display=swap");
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+  letter-spacing: 0.5px;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+}
+
+.emploi {
+  width: 100%;
+  padding: 30px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: #e0e0e0;
+}
+.emploi .box {
+  width: 330px;
+  height: 360px;
+  position: relative;
+  border: 2px solid #4f4f4f73;
+  border-radius: 7px;
+  overflow: hidden;
+  box-shadow: 13px 16px 10px 0px #1c1c1c69;
+  margin: 30px;
+  background-color: #ffffff;
+}
+.emploi .box img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-bottom: 2.5px solid #2c2c2c77;
+}
+.emploi .box h1 {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  top: 60px;
+  width: 80%;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #4746464e;
+  color: #ffffff;
+  backdrop-filter: blur(2px);
+}
+.emploi .box p {
+  width: 100%;
+  margin: 10px 0;
+  font-size: 13px;
+  padding: 0 15px;
+  line-height: 22px;
+}
+
+.emploi .box a {
+  width: 70%;
+  display: block;
+  text-align: center;
+  margin: 10px auto;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 7px;
+  background-color: #005499;
+  color: white;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translate(-50%);
+  transition: all 0.4s;
+}
+.emploi .box a:hover{
+  background-color: #000a13;
+}
+@media screen and (max-width: 600px) {
+  .emploi {
+    padding: 20px 5px;
+  }
+  .emploi .box {
+    height: 400px;
+  }
+  .emploi .box p {
+    font-size: 12px;
+  }
+  .emploi .box a {
+    width: 70%;
+  }
+  .emploi .box img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-bottom: 2.5px solid #2c2c2c77;
+  }
+}

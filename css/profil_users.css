@@ -1,0 +1,188 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Climate+Crisis&family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Nunito&display=swap");
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  background-color: #f2f2f2;
+}
+
+
+/* section 2 et toute ces modification  */
+.tr4{
+  background-color: #504c4c;
+
+  a{
+      color: #ffffff;
+  }
+  span{
+    color: #ffffff;
+  }
+}
+
+/* section 3 et toute ces modification  */
+
+.section3{
+  margin-left: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+ /* background: radial-gradient(circle, rgba(226,226,230,1) 0%, rgba(220,220,233,1) 35%, rgba(255,255,255,1) 100%); */
+ background-position: center;
+ background-attachment: fixed;
+ position: relative;
+ margin-top: 80px;
+}
+
+@media screen and (max-width : 1050px){
+  .section3{
+      width: 100%;
+     padding-left: 50px;
+     margin-left: 0;
+  }
+}
+
+
+.section3{
+    .profil{
+        margin-top: 20px;
+        width: 90%;
+        padding: 6px 20px;
+        background-color: #ffffff;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        p{
+            font-size: 18px;
+            margin-left: 10px;
+            color: #2f2f2f;
+        }
+
+        img{
+            width: 60px;
+            height: 50px;
+            border-radius: 15px;
+            margin-right: 10px;
+        }
+    }
+
+    .box1{
+        padding: 20px 30px;
+        width: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background-color: #ffffff;
+        border-radius: 20px;
+        margin-top: 40px;
+
+        .info{
+            width: 400px;
+            border: 1.5px dotted #2f2f2f6a;
+            padding: 10px;
+            border-radius: 15px;
+
+             h2{
+                padding: 10px;
+                width: 100%;
+            font-size: 20px;
+            color: #2f2f2f;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        p{
+            font-size: 14px;
+            color: #504c4c;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 0 20px;
+            strong{
+                color: #ea2222;
+            }
+        }
+
+        a{
+            color: #ffffff;
+            background-color: rgb(53, 100, 255);
+            padding: 4px 30px;
+            text-align: center;
+            border-radius: 7px;
+            text-decoration: none;
+            margin: 10px 20px;
+            font-size: 14px;
+            display: inline-block;
+            transition: all 0.4s;
+           
+        }
+        a:hover{
+            background-color: #504c4c;
+        }
+        }
+
+
+        .conn{
+            width: 400px;
+            padding: 10px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+             h3{
+                padding: 10px;
+                width: 100%;
+            font-size: 18px;
+            color: #2f2f2f;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        p{
+            font-size: 13px;
+            color: #504c4c;
+            display: inline;
+            margin-bottom: 5px;
+            padding: 0 20px;
+            strong{
+                color: #2251ea;
+            }
+        }
+
+        a{
+            color: #fc6969;
+            background-color: rgb(65, 65, 65);
+            padding: 6px 30px;
+            text-align: center;
+            border-radius: 7px;
+            text-decoration: none;
+            margin: 10px 20px;
+            display: inline-block;
+            transition: all 0.4s;
+            
+            strong{
+                font-size: 20px ;
+                color: #ffffff;     
+            }
+           
+        }
+        a:hover{
+            background-color: #f0f0f0;
+
+            strong{
+                color: #2f2f2f;
+            }
+        }
+        }
+       
+    }
+}

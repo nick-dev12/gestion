@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Climate+Crisis&family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Nunito&display=swap');
+
+*{
+    margin:0 ;
+    box-sizing: border-box;
+    letter-spacing: 0.5px;
+}
+
+body{
+    font-family: 'Nunito', sans-serif;
+}
+
+/* section 2 et toute ces modification  */
+
+
+  .section2 .box3 table .me2{
+    background-color: #797979;
+    border-radius: 15px;
+  }
+  .section2 .box3 table .me2 td a {
+      color: rgb(255, 255, 255);
+  }
+
+  .section3 .img222{
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    height: 50px;
+    width: 50px;
+    background-color: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 5;
+    display: none;
+  }
+  @media screen and (max-width : 1400px) {
+    .section3 .img222{
+      display: none;
+    }
+  }
+  @media screen and (max-width : 1050px) {
+    .section3 .img222{
+      position: fixed;
+      top: 50%;
+      left: 20px;
+      height: 50px;
+      width: 50px;
+      background-color: #ffffff;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 5;
+      display: block;
+    }
+  }
+
+  
+.section3 .container_box2 {
+    width: 80%;
+    margin-top: 50px;
+    padding: 30px;
+    margin-left: 280px;
+    background-color: #fffffffe;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color=#000000)";/*IE 8*/
+  -moz-box-shadow: 18px 18px 4px -11px rgba(0,0,0,0.1);/*FF 3.5+*/
+  -webkit-box-shadow: 18px 18px 4px -11px rgba(0,0,0,0.1);/*Saf3-4, Chrome, iOS 4.0.2-4.2, Android 2.3+*/
+  box-shadow: 18px 18px 4px -11px rgba(0,0,0,0.1);/* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color=#000000); /*IE 5.5-7*/
+     -ms-backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    -moz-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+.section3 .container_box2 .box1 h1{
+    padding: 10px;
+    border-bottom: 1px solid rgba(165, 165, 165, 0.337);
+    width: 100%;
+    margin-bottom: 30px;
+}
+.section3 .container_box2 .box2 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.section3 .container_box2 .box2  .carousel{
+    height: 370px;
+    width: 250px;
+    background-color: rgba(247, 247, 247, 0.499);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(105, 103, 103, 0.257);
+    box-shadow: 7px 6px 10px -5px #00000093;
+    transition: all 0.5s ease-in-out;
+    position: relative;
+    margin: 0 10px;
+    background-color: #ffffff;
+}
+
+.section3 .container_box2 .box2  .carousel .info-box{
+    height: 200px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.section3 .container_box2 .box2  .carousel .statut,statut2{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 2px 8px;
+    border: 1px solid #002233;
+    box-shadow: 0 0 7px 1px #002233;
+    background-color: #92929297;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    border-radius: 7px;
+    color: #ffffff;
+    z-index: 6;
+ }
+ .section3 .container_box2 .box2  .carousel .statut span{
+   display: inline-block;
+   background-color: #1eff00;
+   height: 15px;
+   width: 15px;
+   border-radius: 50%;
+   border: 1px solid #00223363;
+
+ }
+
+.section3 .container_box2 .box2  .carousel:hover{
+    transform: scale(1.02);
+}
+
+.section3 .container_box2 .box2  .message{
+   font-size: 20px;
+   width: 40%;
+   text-align: center;
+   padding: 20px 30px;
+   border: 1px solid #ffffff;
+   border: 1px solid #2c3e502d;
+   box-shadow: 8px 6px 7px 0px #2c3e5080;
+}
+.section3 .container_box2 .box2  .carousel img{
+    height: 120px;
+    width: 100%;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(148, 146, 146, 0.499);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+.section3 .container_box2 .box2  .carousel h4 {
+   padding: 0 10px;
+   font-size: 16px;
+   text-transform: capitalize;
+   margin-bottom: 10px;
+   width: 100%;
+}
+
+.section3 .container_box2 .box2  .carousel .p{
+    font-size: 14px;
+    padding: 0 10px;
+    width: 100%;
+}
+.section3 .container_box2 .box2  .carousel .ville{
+   position: absolute;
+   top: 16px;
+   font-size: 14px;
+   width: 100%;
+   text-transform: capitalize;
+   color: #fcfcfc;
+   width: 100%;
+   background-color: #00223378;
+   padding: 3px 5px;
+}
+.section3 .container_box2 .box2  .carousel .nom{
+   position: absolute;
+   top: 90px;
+   left: 10px;
+   color: #ffffff;
+   background-color: #00223351;
+   font-size: 15px;
+   font-weight: 600;
+   padding: 5px 7px;
+   border-radius: 5px;
+   text-transform: capitalize;
+}
+.section3 .container_box2 .box2  .carousel .ville strong{
+   color: #0a062d;
+}
+
+
+.section3 .container_box2 .box2  .carousel .vendu{
+    display: flex !important; 
+    margin-left: 5px;
+    font-size: 12px;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+    padding:0 5px;
+}
+
+
+.section3 .container_box2 .box2  .carousel .vendu span{
+   padding: 2px 5px;
+   margin-right: 6px;
+   background-color: #0a062d14;
+   border-radius: 6px;
+   margin-bottom: 4px;
+   color: #000000;
+}
+
+.section3 .container_box2 .box2  .carousel a{
+   background-color: #0a062d;
+    width: 70%;
+    padding: 3px 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    transition: all 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 5px;
+    
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.section3 .container_box2 .box2  .carousel a :nth-child(1){
+   margin-right: 7px;
+}
+.section3 .container_box2 .box2  .carousel a:hover{
+    background-color: #2C3E50;
+}
+
+@media screen and (max-width : 1050px){
+    .section3 .container_box2 {
+        width: 98%;
+        padding: 30px 10px;
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width : 650px){
+    
+    .section3 .container_box2 .box2  .carousel .statut,statut2{
+        font-size: 12px;
+     }
+     .section3 .container_box2 .box2  .carousel .statut span{
+       display: inline-block;
+       background-color: #1eff00;
+       height: 15px;
+       width: 15px;
+       border-radius: 50%;
+       border: 1px solid #00223363;
+    
+     }
+    
+}
