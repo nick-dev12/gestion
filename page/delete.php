@@ -298,10 +298,20 @@ if(isset($_GET['suprime'])){
               <h3><?= $user['nom'] ?> </h3>
               </div>
               <ul>
-                <?php ?>
-                    <li><img src="/image/Netflix 2.png" alt=""</li>
-                    <li><img src="/image/prime video.png" alt=""></li>
-                </ul>
+                                    <?php ?>
+                                    <?php if ($user['Netflix'] === 'Netflix'): ?>
+                                        <li><img src="/image/Netflix 2.png" alt="" </li>
+                                        <?php endif; ?>
+                                        <?php if ($user['primevideo'] === 'primevideo'): ?>
+                                        <li><img src="/image/prime video.png" alt=""></li>
+                                    <?php endif; ?>
+                                    <?php if ($user['disney'] === 'disney'): ?>
+                                        <li><img src="/image/disneyp.avif" alt=""></li>
+                                    <?php endif; ?>
+                                    <?php if ($user['Crunchyroll'] === 'Crunchyroll'): ?>
+                                        <li><img src="/image/Crunchyroll.png" alt=""></li>
+                                    <?php endif; ?>
+                                </ul>
                 <p class="pin"><strong>Phone :</strong><?= $user['telephone'] ?></p>
                 <p class="pin"><strong>PIN :</strong> <?= $user['pin']?></p>
                 <p class="mail"> <strong>Mail : </strong><?= $user['mail'] ?></p>

@@ -71,7 +71,7 @@
                 </a>
 
                 <a href="../page/expiration5jour.php">
-                    <li class="tr7"><img src="../image/ex.png" alt=""><span class="td">Expiration dans 5jour</span>
+                    <li class="tr7"><img src="../image/ex.png" alt=""><span class="td">Expiration dans 5jours</span>
                     </li>
                 </a>
 

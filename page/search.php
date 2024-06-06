@@ -97,6 +97,61 @@ if(isset($_GET['suprime'])){
     header('Location: ../index.php');
     exit();
     }
+
+
+
+
+    if (isset($_GET['renouveler'])) {
+        $id = $_GET['renouveler'];
+        $statut = 'a jour';
+    
+        // Récupérez la date actuelle
+        $now = new DateTime();
+    
+        // Récupérez la date d'expiration actuelle depuis la base de données
+        $sql = "SELECT fin FROM users WHERE id = :id";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $current_expiration = $stmt->fetchColumn();
+    
+        if ($current_expiration) {
+            $current_expiration_date = new DateTime($current_expiration);
+        } else {
+            // Si aucune date d'expiration n'est trouvée, utilisez la date actuelle
+            $current_expiration_date = $now;
+        }
+    
+        // Déterminer la nouvelle date d'expiration
+        $interval = new DateInterval('P30D');
+        if ($current_expiration_date > $now) {
+            // Si l'abonnement est encore valide, ajoutez 30 jours à la date d'expiration actuelle
+            $new_expiration = clone $current_expiration_date;
+        } else {
+            // Sinon, ajoutez 30 jours à la date actuelle
+            $new_expiration = clone $now;
+        }
+        $new_expiration->add($interval);
+    
+        // Mettez à jour la date d'expiration et le statut de l'abonnement dans la base de données
+        $sql = "UPDATE users SET fin = :fin, statut = :statut WHERE id = :id";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':fin', $new_expiration->format('Y-m-d'));
+        $stmt->bindParam(':statut', $statut);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    
+        $sauv = "UPDATE sauvegarde SET fin = :fin, statut = :statut WHERE id = :id";
+        $sauvegarde = $db->prepare($sauv);
+        $sauvegarde->bindParam(':fin', $new_expiration->format('Y-m-d'));
+        $sauvegarde->bindParam(':statut', $statut);
+        $sauvegarde->bindParam(':id', $id);
+        $sauvegarde->execute();
+    
+        // Redirection vers une page de confirmation ou autre
+        header('Location: ../index.php');
+        exit();
+    }
 ?>
 
 
@@ -268,16 +323,26 @@ if(isset($_GET['suprime'])){
             <?php endif; ?>
 
             <a href="?suprime=<?= $user['id'] ?>"> <img src="/image/croix.png" alt="" id="supp"></a>
-            <a href="?restore=<?= $user['id'] ?>"> <img src="/image/restore.png" alt="" id="rest"></a>
+            <a href="?renouveler=<?= $user['id'] ?>"><img src="/image/renou.png" alt="" id="rest"></a>
         <div>
           <img class="img" src="/image/profile.png" alt="">
           <h3><?= $user['nom'] ?> </h3>
           </div>
           <ul>
-            <?php ?>
-                <li><img src="/image/Netflix 2.png" alt=""</li>
-                <li><img src="/image/prime video.png" alt=""></li>
-            </ul>
+                                    <?php ?>
+                                    <?php if ($user['Netflix'] === 'Netflix'): ?>
+                                        <li><img src="/image/Netflix 2.png" alt="" </li>
+                                        <?php endif; ?>
+                                        <?php if ($user['primevideo'] === 'primevideo'): ?>
+                                        <li><img src="/image/prime video.png" alt=""></li>
+                                    <?php endif; ?>
+                                    <?php if ($user['disney'] === 'disney'): ?>
+                                        <li><img src="/image/disneyp.avif" alt=""></li>
+                                    <?php endif; ?>
+                                    <?php if ($user['Crunchyroll'] === 'Crunchyroll'): ?>
+                                        <li><img src="/image/Crunchyroll.png" alt=""></li>
+                                    <?php endif; ?>
+                                </ul>
             <p class="pin"><strong>Phone :</strong><?= $user['telephone'] ?></p>
             <p class="pin"><strong>PIN :</strong> <?= $user['pin']?></p>
             <p class="mail"> <strong>Mail : </strong><?= $user['mail'] ?></p>

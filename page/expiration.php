@@ -34,37 +34,54 @@ if(isset($_GET['avertir'])){
  // Vérifiez que l'identifiant de l'utilisateur est présent dans l'URL
  if (isset($_GET['renouveler'])) {
     $id = $_GET['renouveler'];
-
     $statut = 'a jour';
 
-   // Récupérez la date actuelle
-$now = new DateTime();
+    // Récupérez la date actuelle
+    $now = new DateTime();
 
-// Créer un intervalle de 30 jours
-$interval = new DateInterval('P30D');
+    // Récupérez la date d'expiration actuelle depuis la base de données
+    $sql = "SELECT fin FROM users WHERE id = :id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    $current_expiration = $stmt->fetchColumn();
 
-// Ajouter l'intervalle à la date actuelle pour obtenir la nouvelle date d'expiration
-$new_expiration = clone $now; // Cloner l'objet $now pour éviter les modifications indésirables
-$new_expiration->add($interval); // Ajouter l'intervalle
+    if ($current_expiration) {
+        $current_expiration_date = new DateTime($current_expiration);
+    } else {
+        // Si aucune date d'expiration n'est trouvée, utilisez la date actuelle
+        $current_expiration_date = $now;
+    }
 
-// Mettez à jour la date d'expiration de l'abonnement dans la base de données
-$sql = "UPDATE users SET fin = :fin, statut = :statut WHERE id = :id";
-$stmt = $db->prepare($sql);
-$stmt->bindParam(':fin', $new_expiration->format('Y-m-d'));
-$stmt->bindParam(':statut', $statut);
-$stmt->bindParam(':id', $id);
-$stmt->execute();
+    // Déterminer la nouvelle date d'expiration
+    $interval = new DateInterval('P30D');
+    if ($current_expiration_date > $now) {
+        // Si l'abonnement est encore valide, ajoutez 30 jours à la date d'expiration actuelle
+        $new_expiration = clone $current_expiration_date;
+    } else {
+        // Sinon, ajoutez 30 jours à la date actuelle
+        $new_expiration = clone $now;
+    }
+    $new_expiration->add($interval);
 
-$sauv = "UPDATE sauvegarde SET fin = :fin, statut = :statut WHERE id = :id";
-$sauvegarde = $db->prepare($sauv);
-$sauvegarde->bindParam(':fin', $new_expiration->format('Y-m-d'));
-$sauvegarde->bindParam(':statut', $statut);
-$sauvegarde->bindParam(':id', $id);
-$sauvegarde->execute();
+    // Mettez à jour la date d'expiration et le statut de l'abonnement dans la base de données
+    $sql = "UPDATE users SET fin = :fin, statut = :statut WHERE id = :id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':fin', $new_expiration->format('Y-m-d'));
+    $stmt->bindParam(':statut', $statut);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
 
- // Redirection vers une page de confirmation ou autre
- header('Location: expiration.php');
- exit();
+    $sauv = "UPDATE sauvegarde SET fin = :fin, statut = :statut WHERE id = :id";
+    $sauvegarde = $db->prepare($sauv);
+    $sauvegarde->bindParam(':fin', $new_expiration->format('Y-m-d'));
+    $sauvegarde->bindParam(':statut', $statut);
+    $sauvegarde->bindParam(':id', $id);
+    $sauvegarde->execute();
+
+    // Redirection vers une page de confirmation ou autre
+    header('Location: expiration.php');
+    exit();
 }
 
 
@@ -135,7 +152,7 @@ if(isset($_POST['recherche'])) {
 
     <script src="../script/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" href="/css/expiration5jour.css">
+    <link rel="stylesheet" href="/css/expiration.css">
     <link rel="stylesheet" href="../navbare.css">
 
     <link rel="stylesheet" href="../css/aos.css" />
@@ -208,7 +225,7 @@ if(isset($_POST['recherche'])) {
       </div>
     </form>
 <div class="boxh">
-    <h2>Expiration dans 5jours  <a href="?avertir">Avertir <img src="../image/whats.png" alt=""></a></h2>
+    <h2>Compte expirer <a href="?avertir">Avertir <img src="../image/whats.png" alt=""></a></h2>
 </div>
 
        
@@ -271,10 +288,20 @@ if(isset($_POST['recherche'])) {
               <h3><?= $user['nom'] ?> </h3>
               </div>
               <ul>
-                <?php ?>
-                    <li><img src="/image/Netflix 2.png" alt=""</li>
-                    <li><img src="/image/prime video.png" alt=""></li>
-                </ul>
+                                    <?php ?>
+                                    <?php if ($user['Netflix'] === 'Netflix'): ?>
+                                        <li><img src="/image/Netflix 2.png" alt="" </li>
+                                        <?php endif; ?>
+                                        <?php if ($user['primevideo'] === 'primevideo'): ?>
+                                        <li><img src="/image/prime video.png" alt=""></li>
+                                    <?php endif; ?>
+                                    <?php if ($user['disney'] === 'disney'): ?>
+                                        <li><img src="/image/disneyp.avif" alt=""></li>
+                                    <?php endif; ?>
+                                    <?php if ($user['Crunchyroll'] === 'Crunchyroll'): ?>
+                                        <li><img src="/image/Crunchyroll.png" alt=""></li>
+                                    <?php endif; ?>
+                                </ul>
                 <p class="pin"><strong>Phone :</strong><?= $user['telephone'] ?></p>
                 <p class="pin"><strong>PIN :</strong> <?= $user['pin']?></p>
                 <p class="mail"> <strong>Mail : </strong><?= $user['mail'] ?></p>

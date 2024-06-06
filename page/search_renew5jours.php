@@ -1,32 +1,104 @@
 <?php
-
 session_start();
 if(empty($_SESSION['admin'])){
     header('Location: connexion.php');
 }
 require ('../conn/conn.php');
-$sql = "SELECT * FROM users ";
-$stmt = $db->prepare($sql);
-$stmt->execute();
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$totalU = count($users);
-
-$sqls = "SELECT * FROM users  WHERE statut = 'a jour'";
-$stmt = $db->prepare($sqls);
-$stmt->execute();
-$userss = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$total = count($userss);
 
 
-// Requête SQL pour obtenir le prix total des abonnements
-$query_total = "SELECT montant FROM users WHERE statut = 'a jour' ";
-$stmt_total = $db->prepare($query_total);
-$stmt_total->execute();
-$totals = $stmt_total->fetchAll(PDO::FETCH_COLUMN);
+if(isset($_POST['recherche'])) {
+    // Assurez-vous que le champ de recherche n'est pas vide
+    if(!empty($_POST['valeur'])) {
+        $recherche = $_POST['valeur'];
 
-$prix = array_sum($totals);
+        // Requête SQL pour rechercher dans la base de données en fonction des critères
+        $sql = "SELECT * FROM users WHERE 1=1";
+        if (!empty($recherche)) {
+            $sql .= " AND (nom LIKE :recherche)";
+        }
+        $stmt = $db->prepare($sql);
+        if (!empty($recherche)) {
+            $stmt->bindValue(':recherche', "%$recherche%", PDO::PARAM_STR);
+        }
+        $stmt->execute();
 
+        $resulte = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Stocker les résultats de la recherche dans une session
+        $_SESSION['resultats'] = $resulte;
+
+        header('Location: search_renew.php');
+        exit();
+    } else {
+        // Champ de recherche vide, afficher un message d'erreur
+        $erreurs = 'Le champ de recherche ne doit pas être vide !';
+    }
+}
+
+
+
+// Vérifier si les résultats de la recherche sont disponibles dans la session
+if (isset($_SESSION['resultats'])) {
+    // Récupérer les résultats de la recherche
+    $resultats = $_SESSION['resultats'];
+    shuffle($resultats);
+    unset($_SESSION['resultates']);
+} else {
+   
+}
+
+// Vérifiez que l'identifiant de l'utilisateur est présent dans l'URL
+if (isset($_GET['renouveler'])) {
+    $id = $_GET['renouveler'];
+    $statut = 'a jour';
+
+    // Récupérez la date actuelle
+    $now = new DateTime();
+
+    // Récupérez la date d'expiration actuelle depuis la base de données
+    $sql = "SELECT fin FROM users WHERE id = :id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    $current_expiration = $stmt->fetchColumn();
+
+    if ($current_expiration) {
+        $current_expiration_date = new DateTime($current_expiration);
+    } else {
+        // Si aucune date d'expiration n'est trouvée, utilisez la date actuelle
+        $current_expiration_date = $now;
+    }
+
+    // Déterminer la nouvelle date d'expiration
+    $interval = new DateInterval('P30D');
+    if ($current_expiration_date > $now) {
+        // Si l'abonnement est encore valide, ajoutez 30 jours à la date d'expiration actuelle
+        $new_expiration = clone $current_expiration_date;
+    } else {
+        // Sinon, ajoutez 30 jours à la date actuelle
+        $new_expiration = clone $now;
+    }
+    $new_expiration->add($interval);
+
+    // Mettez à jour la date d'expiration et le statut de l'abonnement dans la base de données
+    $sql = "UPDATE users SET fin = :fin, statut = :statut WHERE id = :id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':fin', $new_expiration->format('Y-m-d'));
+    $stmt->bindParam(':statut', $statut);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+
+    $sauv = "UPDATE sauvegarde SET fin = :fin, statut = :statut WHERE id = :id";
+    $sauvegarde = $db->prepare($sauv);
+    $sauvegarde->bindParam(':fin', $new_expiration->format('Y-m-d'));
+    $sauvegarde->bindParam(':statut', $statut);
+    $sauvegarde->bindParam(':id', $id);
+    $sauvegarde->execute();
+
+    // Redirection vers une page de confirmation ou autre
+    header('Location: search_renew5jours.php');
+    exit();
+}
 
 ?>
 
@@ -69,7 +141,7 @@ $prix = array_sum($totals);
     <!-- <script src="../script/summernote@0.8.18.js"></script>
     <link rel="stylesheet" href="../style/summernote@0.8.18.css"> -->
 
-    <link rel="stylesheet" href="/css/renouveler.css">
+    <link rel="stylesheet" href="/css/expiration5jour.css">
     <link rel="stylesheet" href="../navbare.css">
 
     <link rel="stylesheet" href="../css/aos.css" />
@@ -88,13 +160,12 @@ $prix = array_sum($totals);
     <!-- End Google Tag Manager (noscript) -->
 
 
-    <?php include('../navbare.php') ?>
+    <?php include ('../navbare.php') ?>
 
-    <?php include('../include/header_users.php') ?>
+    <?php include ('../include/header_users.php') ?>
 
     <section class="section3">
 
- 
         <?php if (isset($_SESSION['success_message'])): ?>
             <div class="message">
                 <p>
@@ -135,18 +206,23 @@ $prix = array_sum($totals);
                 messageErreur.classList.remove('visible');
             }, 6000); // 6000 millisecondes équivalent à 6 secondes
         </script>
+<form method="post" action="">
+<div class="search-bar">
+         <input type="search" name="valeur" id="search-input" placeholder="Rechercher...">
+        <button type="submit" name="recherche" id="search-button"><img src="/image/recherche.png" alt=""></button>
+      </div>
+    </form>
 
-<div class="box">
-    <h2>Abonnement renouveler <span><?= $total .'/'. $totalU  ?></span> <strong><?= $prix?> cfa</strong></h2>
-</div>
+
+        <div class="box">
+            <h2>Resultats </h2>
+        </div>
 
 
-
-<div class="container"> 
+        <div class="container"> 
             
-            <?php foreach ($users as $user): ?>
-                <?php if($user['statut'] === 'a jour'): ?> 
-    
+            <?php foreach ($resultats as $user): ?>
+                <?php if($user['statut'] === '-5jours'): ?> 
             <?php
                             $sql = " SELECT fin FROM users WHERE id = :id";
                             $stmt = $db->prepare($sql);
@@ -186,12 +262,15 @@ $prix = array_sum($totals);
                 <?php if($user['statut'] === 'expirer'): ?> 
             <div class="box02 comm">
             <?php else :?>
-                <?php if($user['statut'] === ''): ?> 
+                <?php if($user['statut'] === ''): ?>
                     <div class="box">
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php endif; ?>
+    
+                <a href="https://api.whatsapp.com/send?phone=<?= $user['telephone'] ?>" target="_blank"> <img src="/image/whats.png" alt="" id="supp"></a>
+                <a href="?renouveler=<?= $user['id'] ?>"><img src="/image/renou.png" alt="" id="rest"></a>
             <div>
               <img class="img" src="/image/profile.png" alt="">
               <h3><?= $user['nom'] ?> </h3>
@@ -223,6 +302,8 @@ $prix = array_sum($totals);
            
     
           </div>
+       
+
 
 
     </section>

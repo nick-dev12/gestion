@@ -140,7 +140,7 @@ if(isset($_GET['suprime'])){
     <!-- <script src="../script/summernote@0.8.18.js"></script>
     <link rel="stylesheet" href="../style/summernote@0.8.18.css"> -->
 
-    <link rel="stylesheet" href="/css/user_profil.css">
+    <link rel="stylesheet" href="/css/modifier.css">
     <link rel="stylesheet" href="../navbare.css">
 
     <link rel="stylesheet" href="../css/aos.css" />
@@ -281,8 +281,18 @@ if(isset($_GET['suprime'])){
                                 </div>
                                 <ul>
                                     <?php ?>
-                                    <li><img src="/image/Netflix 2.png" alt="" </li>
-                                    <li><img src="/image/prime video.png" alt=""></li>
+                                    <?php if ($user['Netflix'] === 'Netflix'): ?>
+                                        <li><img src="/image/Netflix 2.png" alt="" </li>
+                                        <?php endif; ?>
+                                        <?php if ($user['primevideo'] === 'primevideo'): ?>
+                                        <li><img src="/image/prime video.png" alt=""></li>
+                                    <?php endif; ?>
+                                    <?php if ($user['disney'] === 'disney'): ?>
+                                        <li><img src="/image/disneyp.avif" alt=""></li>
+                                    <?php endif; ?>
+                                    <?php if ($user['Crunchyroll'] === 'Crunchyroll'): ?>
+                                        <li><img src="/image/Crunchyroll.png" alt=""></li>
+                                    <?php endif; ?>
                                 </ul>
                                 <p class="pin"><strong>Phone :</strong><?= $user['telephone'] ?></p>
                                 <p class="pin"><strong>PIN :</strong> <?= $user['pin'] ?></p>
