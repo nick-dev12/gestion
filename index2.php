@@ -466,78 +466,7 @@ $statut = $Users['statut'];
 
 
     </section>
-
-
-
-    <script src="/js/owl.carousel.min.js"></script>
-    <script src="/js/owl.carousel.js"></script>
-    <script src="/js/owl.animate.js"></script>
-    <script src="/js/owl.autoplay.js"></script>
-
-
-    <script>
-
-
-
-        $(document).ready(function () {
-            // Carrousel 3  
-            var carousel3 = $('.carousel3');
-            var numItems2 = carousel3.find('.carousel').length;
-
-            if (numItems2 > 3) {
-
-                // Initialiser Owl carousel3 si il y a plus de 4 éléments
-                carousel3.owlCarousel({
-                    items: 3, // Limitez le nombre d'éléments à afficher à 5
-                    loop: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    animateOut: 'slideOutDown',
-                    animateIn: 'flipInX',
-                    stagePadding: 30,
-                    smartSpeed: 650,
-                    nav: true,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            margin: 0,
-                        },
-                        550: {
-                            items: 1,
-                        },
-                        890: {
-                            items: 2
-                        },
-                        1200: {
-                            items: 2
-                        },
-                        1400: {
-                            items: 3
-                        }
-                    }
-                });
-
-                var carousel3 = $('.carousel3').owlCarousel();
-                $('.owl-next').click(function () {
-                    carousel3.trigger('next.owl.carousel');
-                })
-                $('.owl-prev').click(function () {
-                    carousel3.trigger('prev.owl.carousel');
-                })
-
-
-
-            } else {
-
-                carousel3.trigger('destroy.owl.carousel');
-                carousel3.removeClass('owl-carousel owl-loaded');
-                carousel3.find('.owl-stage-outer').children().unwrap();
-
-            }
-
-
-        });
-    </script>
+   
 
 </body>
 

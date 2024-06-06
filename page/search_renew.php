@@ -150,23 +150,6 @@ $sauvegarde->execute();
 
     <section class="section3">
 
-    <img src="../image/fleche.png" alt="" class="img222">
-        <script>
-            let img222 = document.querySelector('.img222');
-            let section2 = document.querySelector('.section2');
-            let img111 = document.querySelector('.img111');
-
-            img222.addEventListener('click', () => {
-                section2.style.marginLeft = '0px';
-                img222.style.display = 'none';
-            });
-
-            img111.addEventListener('click', () => {
-                section2.style.marginLeft = '-150%';
-                img222.style.display = 'block';
-            });
-        </script>
-
         <?php if (isset($_SESSION['success_message'])): ?>
             <div class="message">
                 <p>
@@ -220,147 +203,86 @@ $sauvegarde->execute();
         </div>
 
 
-
-        <table class="styled-table">
-            <thead>
-                <tr><th>Modif</th>
-                    <th>Profil</th>
-                    <th>Nom</th>
-                    <th>Abonnement</th>
-                    <th>Montant</th>
-                    <th>Numéro de Téléphone</th>
-                    <th>Adresse Mail</th>
-                    <th>Fin</th>
-                    <th>Statut</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($resultats as $user): ?>
-                        <?php
-                        $sql = " SELECT fin FROM users WHERE id = :id";
-                        $stmt = $db->prepare($sql);
-                        $stmt->bindParam(':id', $user['id']);
-                        $stmt->execute();
-                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                        $date_expiration = DateTime::createFromFormat('Y-m-d', $result['fin']);
-
-                        $new = new DateTime();
-                        $diff = $date_expiration->diff($new);
-
-                        if ($new > $date_expiration) {
-                            $statut = 'expirer';
-                            // Mets à jour le statut du compte
-                            $stmt = $db->prepare('UPDATE users SET statut = :statut WHERE id = :id');
-                            $stmt->bindParam(':statut', $statut);
+        <div class="container"> 
+            
+            <?php foreach ($resultats as $user): ?>
+                <?php if($user['statut'] === 'expirer'): ?> 
+            <?php
+                            $sql = " SELECT fin FROM users WHERE id = :id";
+                            $stmt = $db->prepare($sql);
                             $stmt->bindParam(':id', $user['id']);
                             $stmt->execute();
-                        }
-                        ?>
-                        <?php if($user['statut']=== 'expirer') :?>
-                        <tr id="ex" >
-                            <?php else: ?>
-                                <?php if ($diff->days <= 5) : ?>
-                                <tr id="exs">
-                        <?php endif; ?>
-                        <?php endif; ?>
-                        <td class="sup"><a href="?renouveler=<?= $user['id'] ?>"><img src="../image/renou.png" alt=""></a></td>
-                            <td><img src="/image/Netflix 2.png" alt=""></td>
-                            <td><?= $user['nom'] ?></td>
-                            <td><?= $user['Netflix'] ?></td>
-                            <td><?= $user['montant'] ?> fca</td>
-                            <td><?= $user['telephone'] ?></td>
-                            <td><?= $user['mail']?>  <em><?= $user['pin'] ?></em></td>
-                            <td><?= $user['fin'] ?></td>
-                            <?php if($user['statut'] === 'a jour') :?>
-                            <td class="td" ><?= $user['statut'] ?></td>
-                            <?php else :?>
-                            <td><?= $user['statut'] ?></td>
-                            <?php endif; ?>
-                        </tr>
-                <?php endforeach; ?>
-                <!-- Ajoutez plus de lignées (tr) ici pour plus d'entrées -->
-            </tbody>
-
+                            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+                            $date_expiration = DateTime::createFromFormat('Y-m-d', $result['fin']);
+    
+                            $new = new DateTime();
+                            $diff = $date_expiration->diff($new);
+    
+                            if ($diff->days <= 5){
+                                $statut = '-5jours';
+                                 // Mets à jour le statut du compte
+                                 $stmt = $db->prepare('UPDATE users SET statut = :statut WHERE id = :id');
+                                 $stmt->bindParam(':statut', $statut);
+                                 $stmt->bindParam(':id', $user['id']);
+                                 $stmt->execute();
+                            }
+    
+                            if ($new > $date_expiration) {
+                                $statut = 'expirer';
+                                // Mets à jour le statut du compte
+                                $stmt = $db->prepare('UPDATE users SET statut = :statut WHERE id = :id');
+                                $stmt->bindParam(':statut', $statut);
+                                $stmt->bindParam(':id', $user['id']);
+                                $stmt->execute();
+                            }
+                            ?>
+            <?php if($user['statut'] === 'a jour'): ?>                
+            <div class="box comm">
+                <?php else :?>
+            <?php if($user['statut'] === '-5jours'): ?> 
+            <div class="box01 comm"> 
+            <?php else :?>
+                <?php if($user['statut'] === 'expirer'): ?> 
+            <div class="box02 comm">
+            <?php else :?>
+                <?php if($user['statut'] === ''): ?>
+                    <div class="box">
+                <?php endif; ?>
+                <?php endif; ?>
+                <?php endif; ?>
+                <?php endif; ?>
+    
+                <a href="https://api.whatsapp.com/send?phone=<?= $user['telephone'] ?>" target="_blank"> <img src="/image/whats.png" alt="" id="supp"></a>
+                <a href="?renouveler=<?= $user['id'] ?>"><img src="/image/renou.png" alt="" id="rest"></a>
+            <div>
+              <img class="img" src="/image/profile.png" alt="">
+              <h3><?= $user['nom'] ?> </h3>
+              </div>
+              <ul>
+                <?php ?>
+                    <li><img src="/image/Netflix 2.png" alt=""</li>
+                    <li><img src="/image/prime video.png" alt=""></li>
+                </ul>
+                <p class="pin"><strong>Phone :</strong><?= $user['telephone'] ?></p>
+                <p class="pin"><strong>PIN :</strong> <?= $user['pin']?></p>
+                <p class="mail"> <strong>Mail : </strong><?= $user['mail'] ?></p>
+    
+                <h4><?= $user['plan'] ?> : <?= $user['montant'] ?> , <?= $user['fin'] ?></h4>
+            </div>
+            <?php endif; ?>
+            <?php endforeach ?>
+    
            
-            
-        </table>
+    
+          </div>
+       
 
 
 
     </section>
 
-
-
-    <script src="/js/owl.carousel.min.js"></script>
-    <script src="/js/owl.carousel.js"></script>
-    <script src="/js/owl.animate.js"></script>
-    <script src="/js/owl.autoplay.js"></script>
-
-
-    <script>
-
-
-
-        $(document).ready(function () {
-            // Carrousel 3  
-            var carousel3 = $('.carousel3');
-            var numItems2 = carousel3.find('.carousel').length;
-
-            if (numItems2 > 3) {
-
-                // Initialiser Owl carousel3 si il y a plus de 4 éléments
-                carousel3.owlCarousel({
-                    items: 3, // Limitez le nombre d'éléments à afficher à 5
-                    loop: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    animateOut: 'slideOutDown',
-                    animateIn: 'flipInX',
-                    stagePadding: 30,
-                    smartSpeed: 650,
-                    nav: true,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            margin: 0,
-                        },
-                        550: {
-                            items: 1,
-                        },
-                        890: {
-                            items: 2
-                        },
-                        1200: {
-                            items: 2
-                        },
-                        1400: {
-                            items: 3
-                        }
-                    }
-                });
-
-                var carousel3 = $('.carousel3').owlCarousel();
-                $('.owl-next').click(function () {
-                    carousel3.trigger('next.owl.carousel');
-                })
-                $('.owl-prev').click(function () {
-                    carousel3.trigger('prev.owl.carousel');
-                })
-
-
-
-            } else {
-
-                carousel3.trigger('destroy.owl.carousel');
-                carousel3.removeClass('owl-carousel owl-loaded');
-                carousel3.find('.owl-stage-outer').children().unwrap();
-
-            }
-
-
-        });
-    </script>
+   
 
 </body>
 
