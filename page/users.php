@@ -127,7 +127,7 @@ $date_expiration->modify('+30 days');
                 </div>
                 <div class="input_container">
                     <label for="password_field" class="input_label">Numero de telephone</label>
-                    <input id="password_field" class="input_field" value="<?= $users['telephone']?>" type="number" name="tell"
+                    <input id="password_field" class="input_field" value="<?= $users['telephone']?>" type="text" name="tell"
                         placeholder="0000 0000 0000 0000">
                 </div>
                 <div class="input_container">

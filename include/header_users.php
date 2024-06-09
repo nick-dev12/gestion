@@ -41,8 +41,7 @@
 
 <section class="section2 ste" id="ste">
     <img src="../image/croix.png" alt="" class="img111" id="img24">
-    
-    <a class="a" href="/conn/dconn_users.php">Deconnexion</a>
+ 
 
     <div class="containers">
 
@@ -90,7 +89,10 @@
             </ul>
 
         </div>
+
+        <a class="a" href="/conn/dconn_users.php">Deconnexion</a>
     </div>
+   
 
 
 </section>

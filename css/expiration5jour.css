@@ -80,7 +80,7 @@ body {
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      background-color: #27c004bd;
+      background-color: #26c00467;
       border-bottom-left-radius: 40px;
       border-bottom-right-radius: 40px;
       overflow: hidden;
@@ -110,7 +110,7 @@ body {
         text-align: center;
         color: #ffffff;
         font-size: 10px;
-        background-color: #27c004bd;
+        background-color: #26c00467;
         border-top-left-radius: 30px;
         border-top-right-radius: 30px;
       }
@@ -167,34 +167,30 @@ body {
         }
       }
     }
-
-
-
+    
      .box01{
 
       div{
-      background-color: #efa505;
+      background-color: #efa5059b;
       }
      
 
       h4{
-        background-color: #efa505;
+        background-color: #efa5059b;
       }
 
     
     }
 
-
-
     .box02{
 
       div{
-      background-color: #ef0505;
+      background-color: #ef05057d;
       }
      
     
       h4{
-        background-color: #ef0505;
+        background-color: #ef05057d;
       }
     
    

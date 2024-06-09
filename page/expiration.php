@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(empty($_SESSION['admin'])){
-    header('Location: connexion.php');
+    header('Location: ../connexion.php');
 }
 
 require ('../conn/conn.php');

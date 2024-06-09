@@ -12,17 +12,36 @@ if (isset($_POST['envoie'])) {
     $tell = $_POST['full_phone'];
     $montant = $_POST['montant'];
     $pin =  $_POST['pin'];
-    $plan =  $_POST['plan'];
+   
+    $plan = $_POST['plan'];
 
-  // Récupère la date d'inscription de l'utilisateur depuis le formulaire
+// Récupère la date d'inscription de l'utilisateur depuis le formulaire
 $debut = $_POST['debut'];
 
 // Crée un objet DateTime à partir de la chaîne de caractères entrée par l'utilisateur
 $date_debut = DateTime::createFromFormat('Y-m-d', $debut);
 
-// Ajoute 30 jours à la date d'inscription pour obtenir la date d'expiration
+if ($date_debut === false) {
+    // Gérez l'erreur si la date de début n'est pas valide
+    die('Date de début invalide.');
+}
+
 $date_expiration = clone $date_debut;
-$date_expiration->modify('+30 days');
+
+if ($plan === '1Mois') {
+    // Ajoute 30 jours à la date d'inscription pour obtenir la date d'expiration
+    $date_expiration->modify('+30 days');
+} elseif ($plan === '3Mois') {
+    // Ajoute 90 jours à la date d'inscription pour obtenir la date d'expiration
+    $date_expiration->modify('+90 days');
+} elseif ($plan === '12Mois') {
+    // Ajoute 365 jours à la date d'inscription pour obtenir la date d'expiration
+    $date_expiration->modify('+365 days');
+} else {
+    // Gérez l'erreur si le plan n'est pas valide
+    die('Plan invalide.');
+}
+
 
     $mail = $_POST['mail'];
     
@@ -336,25 +355,43 @@ $date_expiration->modify('+30 days');
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-    <script>
-        function updateAmount() {
-            const plan = document.querySelector('input[name="plan"]:checked').value;
-            const amount = plan * 3000;
-            document.getElementById('amount').innerText = `Montant total: ${amount} Francs`;
+<script>
+    function updateAmount() {
+        const plan = document.querySelector('input[name="plan"]:checked').value;
+        const amount = plan * 3000;
+        document.getElementById('amount').innerText = `Montant total: ${amount} Francs`;
+    }
+
+    // Ajoutez des écouteurs d'événements pour les changements de plan
+    document.querySelectorAll('input[name="plan"]').forEach(plan => {
+        plan.addEventListener('change', updateAmount);
+    });
+
+    const phoneInputField = document.querySelector("#phone");
+    const fullPhoneInput = document.querySelector("#full_phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        initialCountry: "auto",
+        preferredCountries: ["fr", "us", "gb"],
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        geoIpLookup: function (callback) {
+            fetch("https://ipapi.co/json")
+                .then(function (res) {
+                    return res.json();
+                })
+                .then(function (data) {
+                    callback(data.country_code);
+                })
+                .catch(function () {
+                    callback("us");
+                });
         }
+    });
 
-        const phoneInputField = document.querySelector("#phone");
-        const fullPhoneInput = document.querySelector("#full_phone");
-        const phoneInput = window.intlTelInput(phoneInputField, {
-            initialCountry: "fr",
-            preferredCountries: ["fr", "us", "gb"],
-            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-        });
+    phoneInputField.addEventListener("blur", function() {
+        fullPhoneInput.value = phoneInput.getNumber();
+    });
+</script>
 
-        phoneInputField.addEventListener("blur", function() {
-            fullPhoneInput.value = phoneInput.getNumber();
-        });
-    </script>
 </body>
 
 </html>
