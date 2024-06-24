@@ -275,7 +275,7 @@ if(isset($_POST['recherche'])) {
             <div class="box02 comm">
             <?php else :?>
                 <?php if($user['statut'] === ''): ?>
-                    <div class="box">
+                    <div class="box comm">
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php endif; ?>

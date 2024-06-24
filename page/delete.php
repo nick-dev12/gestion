@@ -286,7 +286,7 @@ if(isset($_GET['suprime'])){
             <div class="box02 comm">
             <?php else :?>
                 <?php if($user['statut'] === ''): ?> 
-                    <div class="box">
+                    <div class="box comm">
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php endif; ?>
